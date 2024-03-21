@@ -1,29 +1,22 @@
-#Create a docker compose with 3 image, my dockerfile, mysql and phpmyadmin
-
 version: '3.8'
 
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     ports:
       - "8000:8000"
     depends_on:
       - db
     environment:
-      - DATABASE_HOST=docker
+      - DATABASE_HOST=db
       - DATABASE_NAME=db
-      - DATABASE_USER=bdi
-      - DATABASE_PASSWORD=pepe1234
-
   db:
     image: mysql:latest
     ports:
-      - "3306:3306"
+      - "3360:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: root
+      MYSQL_DATABASE: db
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
