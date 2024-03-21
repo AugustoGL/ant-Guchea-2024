@@ -1,16 +1,15 @@
 version: '3'
 
 services:
-  django:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  web:
+    build: .
     ports:
       - "8000:8000"
-    volumes:
-      - ./dockerprueba:/app
     depends_on:
       - db
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_NAME=db
 
   db:
     image: mysql
