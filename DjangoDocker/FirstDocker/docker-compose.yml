@@ -1,27 +1,36 @@
-version: '3.8'
+version: '3'
 
 services:
-  web:
-    build: .
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    volumes:
+      - ./dockerprueba:/app
     depends_on:
       - db
-    environment:
-      - DATABASE_HOST=db
-      - DATABASE_NAME=db
+
   db:
-    image: mysql:latest
-    ports:
-      - "3360:3306"
+    image: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: db
+      MYSQL_USER: bdi
+      MYSQL_PASSWORD: pepe1234
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
       - "8080:80"
     environment:
-      - PMA_ARBITRARY=1
-      - MYSQL_ROOT_PASSWORD=root
+      PMA_ARBITRARY: 1
+      MYSQL_ROOT_PASSWORD: root
+    depends_on:
+      - db
+
+volumes:
+  mysql_data:
